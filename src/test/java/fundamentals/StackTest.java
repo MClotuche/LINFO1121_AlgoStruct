@@ -12,14 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Grade
 public class StackTest {
 
-
     @Grade
     @Test
     public void testSimpleStack() {
 
         Stack<Integer> [] stacks = new Stack[2];
-        stacks[0] = new ArrayStack<>();
-        stacks[1] = new LinkedStack<>();
+        stacks[1] = new ArrayStack<>();
+        stacks[0] = new LinkedStack<>();
         for (Stack<Integer> stack : stacks) {
             stack.push(1);
             assertEquals(1, stack.peek());

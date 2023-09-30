@@ -38,5 +38,9 @@ public class GlobalWarmingImplTest {
         }
     }
 
+    private int[][] getSimpleMatrix() {
+        return null;
+    }
+
 
 }

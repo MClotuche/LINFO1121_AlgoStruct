@@ -29,7 +29,7 @@ import java.util.Hashtable;
 public class RabinKarp {
 
 
-     private String pat; // pattern (only needed for Las Vegas)
+     private String[] pat; // pattern (only needed for Las Vegas)
 
      private long patHash; // pattern hash value
 
@@ -43,7 +43,7 @@ public class RabinKarp {
 
 
          this.pat = pat; // save pattern (only needed for Las Vegas)
-         this.M = pat.length();
+         //this.M = pat.length();
         Q = 4463;
         RM = 1;
 

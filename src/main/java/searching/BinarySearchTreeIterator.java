@@ -98,6 +98,15 @@ public class BinarySearchTreeIterator<Key extends Comparable<Key>> implements It
 
     private class BSTIterator implements Iterator<Key> {
 
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public Key next() {
+            return null;
+        }
     }
 
     class BSTNode<K extends Comparable<K>> {

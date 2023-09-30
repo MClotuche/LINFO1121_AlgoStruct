@@ -1,5 +1,7 @@
 package fundamentals;
 
+import java.sql.SQLOutput;
+import java.util.Arrays;
 import java.util.EmptyStackException;
 
 /**
@@ -62,28 +64,41 @@ class LinkedStack<E> implements Stack<E> {
         }
     }
 
+    public LinkedStack(){
+        size= 0;
+        top = null;
+    }
+
     @Override
     public boolean empty() {
-        // TODO Implement empty method
-         return false;
+        return (top == null);
     }
 
     @Override
     public E peek() throws EmptyStackException {
-        // TODO Implement peek method
-         return null;
+        if (empty()){ throw new EmptyStackException();}
+        else{
+            return top.item;
+        }
     }
 
     @Override
     public E pop() throws EmptyStackException {
-        // TODO Implement pop method
-         return null;
+        if (empty()){ throw new EmptyStackException(); }
+        E item = top.item;
+        top = top.next;
+        size--;
+        return item;
     }
 
     @Override
     public void push(E item) {
-        // TODO Implement push method
+        Node newNode = new Node(item,top);
+        top = newNode;
+        size++;
     }
+
+
 }
 
 
@@ -98,32 +113,51 @@ class ArrayStack<E> implements Stack<E> {
 
     private E[] array;        // array storing the elements on the stack
     private int size;        // size of the stack
+    private int firstindex;
 
     public ArrayStack() {
         array = (E[]) new Object[10];
+        size = 0;
+        firstindex = 0;
+    }
+    private void resize(int newsize){
+        array = Arrays.copyOf(array,newsize);
     }
 
     @Override
     public boolean empty() {
-        // TODO Implement empty method
+        if (size==0) return true;
          return false;
     }
 
     @Override
     public E peek() throws EmptyStackException {
-        // TODO Implement peek method
-         return null;
+        if (empty()) throw new EmptyStackException();
+         return array[firstindex-1];
     }
 
     @Override
     public E pop() throws EmptyStackException {
-        // TODO Implement pop method
-         return null;
+        if (empty()) throw new EmptyStackException();
+        E old = array[firstindex-1];
+        if (firstindex>0) firstindex--;
+        size--;
+        if (size >0 && size<= array.length/4){
+            array = Arrays.copyOf(array, array.length/2);
+        }
+        return old;
     }
 
     @Override
     public void push(E item) {
-        // TODO Implement push method
+        if (size == array.length){resize(2* array.length);}
+        array[firstindex++] = item;
+        size++;
+    }
+
+    public static void main(String[] args) {
+        ArrayStack<Integer> S = new ArrayStack<Integer>();
+        S.push(1);
     }
 }
 
