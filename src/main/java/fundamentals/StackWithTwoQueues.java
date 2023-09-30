@@ -3,6 +3,7 @@ package fundamentals;
 import java.util.ArrayDeque;
 import java.util.EmptyStackException;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Author: Pierre Schaus and Auguste Burlats
@@ -25,7 +26,7 @@ public class StackWithTwoQueues<E> {
      * without removing it from the stack
      */
     public boolean empty() {
-         return false;
+        return queue1.isEmpty();
     }
 
     /**
@@ -34,7 +35,8 @@ public class StackWithTwoQueues<E> {
      * @throws EmptyStackException if the stack is empty
      */
     public E peek() throws EmptyStackException {
-         return null;
+        if (empty()) throw new EmptyStackException();
+        return queue1.peek();
     }
 
     /**
@@ -43,7 +45,8 @@ public class StackWithTwoQueues<E> {
      * @throws EmptyStackException if the stack is empty
      */
     public E pop() throws EmptyStackException {
-         return null;
+        if (empty()){throw new EmptyStackException();}
+        return queue1.remove();
     }
 
     /**
@@ -52,6 +55,13 @@ public class StackWithTwoQueues<E> {
      * @param item the item to add
      */
     public void push(E item) {
+        queue2.add(item);
+        while (!queue1.isEmpty()) {
+            queue2.add(queue1.remove());
+        }
+        Queue<E> buffer = queue1;
+        queue1 = queue2;
+        queue2 = buffer;
     }
 
 }
