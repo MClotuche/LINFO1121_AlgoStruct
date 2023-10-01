@@ -38,17 +38,17 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
     }
 
     public CircularLinkedList() {
-        // TODO initialize instance variables
+        n = 0;
+        nOp++;
+        last = null;
     }
 
     public boolean isEmpty() {
-        // TODO
-         return false;
+        return (last == null);
     }
 
     public int size() {
-        // TODO
-         return -1;
+         return n;
     }
 
     private long nOp() {
@@ -56,14 +56,25 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
     }
 
 
-
     /**
      * Append an item at the end of the list
      * @param item the item to append
      */
     public void enqueue(Item item) {
-        // TODO
+        Node NewNode = new Node();
+        NewNode.item = item;
 
+        //1 element
+        if (isEmpty()){
+            NewNode.next = NewNode;
+        }
+        else {
+            NewNode.next = last.next;
+            last.next = NewNode;
+        }
+        last = NewNode;
+        n++;
+        nOp++;
     }
 
     /**
@@ -71,9 +82,33 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
      * Shifts any subsequent elements to the left (subtracts one from their indices).
      * Returns the element that was removed from the list.
      */
-    public Item remove(int index) {
-        // BEGIN STUDENT return null;
-        return null;
+    public Item remove(int index)
+    {
+        if (isEmpty() || index < 0 || index >= n) {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+
+        if (index == 0) {
+            Item item = last.next.item;
+            if (n == 1) {
+                last = null; // Remove the last element if it's the only one
+            } else {
+                last.next = last.next.next; // Remove the first element
+            }
+            n--;
+            nOp++;
+            return item;
+        } else {
+            Node current = last.next;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            Item item = current.next.item;
+            current.next = current.next.next; // Remove the element at the specified index
+            n--;
+            nOp++;
+            return item;
+        }
     }
 
 
@@ -96,19 +131,37 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
      */
     private class ListIterator implements Iterator<Item> {
 
-        // TODO You probably need a constructor here and some instance variables
+        private Node current;
+        private final long nOpInit;
 
+        public ListIterator(){
+            nOpInit = nOp;
+            if (!isEmpty()) current = last.next;
+        }
+
+
+        private boolean failFastCheck() {
+            if (nOp != nOpInit) {
+                throw new ConcurrentModificationException();
+            }
+            return true;
+        }
 
         @Override
         public boolean hasNext() {
-            // BEGIN STUDENT return false;
-            return false;
+            return current != null;
         }
 
         @Override
         public Item next() {
-            // BEGIN STUDENT return null;
-            return null;
+            failFastCheck();
+
+            if (!hasNext()){
+                throw new NoSuchElementException();
+            }
+            Item item = current.item;
+            current = current.next;
+            return item;
         }
 
     }
