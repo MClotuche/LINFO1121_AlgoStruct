@@ -2,7 +2,6 @@ package fundamentals;
 
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -53,9 +52,16 @@ public abstract class FList<A> implements Iterable<A> {
 
     // return the length of the list
     public final int length() {
-        // TODO
-         return -1;
+        return -1;
+                //recursiveLength(this,0);
     }
+    /*
+    private final int recursiveLength(FList List, int Acc){
+        if (List.isEmpty()) return Acc;
+        else return recursiveLength(List.tail(), Acc+1);
+    }
+    */
+
 
     // return the head element of the list
     public abstract A head();
@@ -72,17 +78,48 @@ public abstract class FList<A> implements Iterable<A> {
     public final FList<A> cons(final A a) {
         return new Cons(a, this);
     }
+    /*
+    Problème de cette implémentation: l'ordre est conservé, alors qu'utiliser les méthodes Java l'inverse
+
+    private final <B> FList<B> recursiveMap(Function<A,B> f, FList<A> List, FList<B> Acc) {
+        if (List.isEmpty()){return Acc;}
+        else {
+            return recursiveMap(f, List.tail(), Acc.cons(f.apply(List.head())));
+        }
+    }
+
+    private final <B> FList<B> Recusivefilter(Predicate<A> f, FList<A> List,  FList<B> Acc) {
+        if (List.isEmpty()){return Acc;}
+        else {
+            if (f.test(List.head()))
+                return Recusivefilter(f, List.tail(), Acc.cons((B) List.head()));
+            else
+                return Recusivefilter(f, List.tail(), Acc);
+        }
+    }
+    */
+
 
     // return a list on which each element has been applied function f
     public final <B> FList<B> map(Function<A,B> f) {
-        // TODO
-         return null;
+        if (isEmpty()){
+            return nil();
+        }
+        else {
+            return tail().map(f).cons(f.apply(head()));
+        }
     }
 
     // return a list on which only the elements that satisfies predicate are kept
     public final FList<A> filter(Predicate<A> f) {
-        // TODO
-         return null;
+         //return Recusivefilter(f, this, nil());
+        if (isEmpty()){
+            return nil();
+        }
+        else {
+            if (f.test(head())) return tail().filter(f).cons(head());
+            else  return tail().filter(f);
+        }
     }
 
 
@@ -95,12 +132,15 @@ public abstract class FList<A> implements Iterable<A> {
 
             public boolean hasNext() {
                 // TODO
-                 return false;
+                 return current.isNotEmpty();
             }
 
             public A next() {
                 // TODO
-                 return null;
+                if (isEmpty()) {return null;}
+                A item = current.head();
+                current = current.tail();
+                return item;
             }
 
             public void remove() {
@@ -115,35 +155,34 @@ public abstract class FList<A> implements Iterable<A> {
 
         @Override
         public A head() {
-            // TODO
-             return null;
+            throw new IllegalArgumentException();
         }
 
         @Override
         public FList<A> tail() {
-            // TODO
-             return null;
+            throw new IllegalArgumentException();
         }
     }
 
     private static final class Cons<A> extends FList<A> {
 
         // TODO add instance variables
-
+        private  A Head;
+        private FList<A> Tail;
 
         Cons(A a, FList<A> tail) {
+            this.Head = a;
+            this.Tail = tail;
         }
 
         @Override
         public A head() {
-            // TODO
-             return null;
+            return Head;
         }
 
         @Override
         public FList<A> tail() {
-            // TODO
-             return null;
+            return Tail;
         }
     }
 

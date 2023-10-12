@@ -38,17 +38,18 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
     }
 
     public CircularLinkedList() {
-        n = 0;
-        nOp++;
-        last = null;
+        //Correction: pour éviter des cas spéciaux, besoin de faire un noeud dummy
+        last = new Node();
+        last.next = last;
+        n = 1;
     }
 
     public boolean isEmpty() {
-        return (last == null);
+        return (n == 1);
     }
 
     public int size() {
-         return n;
+         return n-1;
     }
 
     private long nOp() {
@@ -61,20 +62,15 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
      * @param item the item to append
      */
     public void enqueue(Item item) {
+        nOp++;
         Node NewNode = new Node();
         NewNode.item = item;
 
-        //1 element
-        if (isEmpty()){
-            NewNode.next = NewNode;
-        }
-        else {
-            NewNode.next = last.next;
-            last.next = NewNode;
-        }
+        NewNode.next = last.next;
+        last.next = NewNode;
+
         last = NewNode;
         n++;
-        nOp++;
     }
 
     /**
@@ -84,31 +80,22 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
      */
     public Item remove(int index)
     {
-        if (isEmpty() || index < 0 || index >= n) {
+        nOp++;
+        if (index < 0 || index >= size()) { //attention, pas n car défini différement avc dummy
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
-
-        if (index == 0) {
-            Item item = last.next.item;
-            if (n == 1) {
-                last = null; // Remove the last element if it's the only one
-            } else {
-                last.next = last.next.next; // Remove the first element
-            }
-            n--;
-            nOp++;
-            return item;
-        } else {
-            Node current = last.next;
-            for (int i = 0; i < index - 1; i++) {
-                current = current.next;
-            }
-            Item item = current.next.item;
-            current.next = current.next.next; // Remove the element at the specified index
-            n--;
-            nOp++;
-            return item;
+        //Pas besoin de gérer les différents cas grâce au dummy!
+        Node current = last.next;
+        for (int i = 0; i < index; i++) { //grâce au dummy toujours présent
+            current = current.next;
         }
+        Item item = current.next.item;
+        current.next = current.next.next; // Remove the element at the specified index
+        if (index == n-1) last = current;
+        n--;
+        return item;
+
+
     }
 
 
@@ -135,8 +122,8 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
         private final long nOpInit;
 
         public ListIterator(){
-            nOpInit = nOp;
-            if (!isEmpty()) current = last.next;
+            nOpInit = nOp();
+            current = last.next.next; //le dummy!
         }
 
 
@@ -149,7 +136,7 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return current != null;
+            return current != last.next;
         }
 
         @Override
@@ -163,6 +150,31 @@ public class CircularLinkedList<Item> implements Iterable<Item> {
             current = current.next;
             return item;
         }
+
+    }
+
+    public static void main(String[] args) {
+        CircularLinkedList MyList = new CircularLinkedList();
+        boolean a = MyList.isEmpty();
+        MyList.enqueue(0);
+        MyList.enqueue(1);
+        MyList.enqueue(2);
+        MyList.enqueue(3);
+        MyList.enqueue(4);
+        MyList.enqueue(5);
+        int s = MyList.size();
+        MyList.remove(0);
+        MyList.remove(4);
+        MyList.remove(3);
+        int s2 = MyList.size();
+        boolean c = MyList.isEmpty();
+        Iterator I = MyList.iterator();
+        I.hasNext();
+        I.next();
+        I.next();
+        MyList.enqueue(6);
+        //I.next();
+
 
     }
 
