@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.*;
 
+
+
 @Grade
 public class CardSorterTest {
 
@@ -19,6 +21,10 @@ public class CardSorterTest {
         assertTrue(l.isSorted());
     }
 
+    public static void main(String[] args) {
+        LinkedListImpl l = new LinkedListImpl(new int[]{7, 8, 2, 22, 102, 1});
+        CardSorter.sort(l);
+    }
 }
 
 
