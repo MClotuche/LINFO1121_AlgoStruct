@@ -1,6 +1,5 @@
 package sorting;
 
-
 /**
  * Author Pierre Schaus
  *
