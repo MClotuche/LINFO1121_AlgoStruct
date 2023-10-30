@@ -39,7 +39,12 @@ public class GlobalWarmingImplTest {
     }
 
     private int[][] getSimpleMatrix() {
-        return null;
+        int [][] tab = new int[][] {{1,3,3,1,3},
+                                    {4,2,2,4,5},
+                                    {4,4,1,4,2},
+                                    {1,4,2,3,6},
+                                    {1,1,1,6,3}};
+        return tab;
     }
 
 

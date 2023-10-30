@@ -1,5 +1,4 @@
 package searching;
-
 /**
  * You are given a binary search tree (BST) whose nodes implement the BinaryNode and KeyNode interfaces
  * available in the utils package.
@@ -25,7 +24,7 @@ package searching;
  * - The ceiled valued of 4 is 8
  * - The ceiled valued of 21 is null
  */
-public class BinarySearchTree {
+public class BinarySearchTree2 {
 
     /**
      * Returns the ceiled value of `value` in the tree rooted at `root`
@@ -34,20 +33,15 @@ public class BinarySearchTree {
      * @param value the value we want to ceil
      */
     public static Integer ceil(BSTNode<Integer> root, int value) {
-        return tailCeil(root, value, null);
-    }
-    private static Integer tailCeil(BSTNode<Integer> root, int value, Integer currentBest){
-        if (root == null) return currentBest;
-        int node_value = root.getKey();
-        if (node_value ==value) return value;
-        else if (node_value > value){
-            if (currentBest == null || node_value < currentBest){
-                return tailCeil(root.getLeft(), value, node_value);
-            }
-            else return tailCeil(root.getLeft(), value, currentBest);
-        }
+        //Pas une méthode récursive terminale
+        if (root==null) return null;
+        if (root.key == value){return value;}
+        if (root.key < value){return ceil(root.right,value);}
         else{
-            return tailCeil(root.getRight(), value, currentBest);
+            Integer actualBest = root.key;
+            Integer competitor = ceil(root.left,value);
+            if (competitor == null){return actualBest;}
+            return competitor;
         }
     }
 
@@ -128,4 +122,3 @@ public class BinarySearchTree {
     }
 
 }
-

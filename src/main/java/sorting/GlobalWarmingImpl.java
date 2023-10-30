@@ -59,11 +59,22 @@ abstract class GlobalWarming {
 
 public class GlobalWarmingImpl extends GlobalWarming {
 
+    // BEGIN STRIP
+    int[] flattenArray = new int[altitude.length * altitude.length];
+    // END STRIP
 
     public GlobalWarmingImpl(int[][] altitude) {
         super(altitude);
         // TODO
         // expected pre-processing time in the constructror : O(n^2 log(n^2))
+        // BEGIN STRIP
+        int origin = 0;
+        for (int i = 0; i < altitude.length; i++) {
+            System.arraycopy(altitude[i], 0, flattenArray, origin, altitude.length);
+            origin += altitude.length;
+        }
+        Arrays.sort(flattenArray);
+        // END STRIP
 
     }
 
@@ -75,9 +86,11 @@ public class GlobalWarmingImpl extends GlobalWarming {
     public int nbSafePoints(int waterLevel) {
         // TODO
         // expected time complexity O(log(n^2))
-         return -1;
+        // STUDENT return -1;
+        // BEGIN STRIP
+        // Looks for the smallest index with a value > waterLevel
+        int index = Arrays.binarySearch(flattenArray, waterLevel);
+        return flattenArray.length - index;
+        // END STRIP
     }
-
-
-
 }

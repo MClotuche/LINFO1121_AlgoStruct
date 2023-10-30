@@ -1,8 +1,6 @@
 package searching;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * In this exercise, we are interested in implementing an iterator (BSTIterator) for a Binary Search Tree (BST).
@@ -41,7 +39,7 @@ public class BinarySearchTreeIterator<Key extends Comparable<Key>> implements It
 
     private BSTNode<Key> root;
 
-    public BinarySearchTreeIterator() { };
+    public BinarySearchTreeIterator() {};
 
     /**
      * Returns the size of the tree
@@ -98,14 +96,38 @@ public class BinarySearchTreeIterator<Key extends Comparable<Key>> implements It
 
     private class BSTIterator implements Iterator<Key> {
 
+        //Fail-safe
+        private ArrayList<Key> collection;
+        private int curidx;
+        private int initSize;
+
+        private void createCollection(BSTNode node) {
+            if (node == null) {return;}
+            createCollection(node.left);
+            this.collection.add((Key) node.key);
+            createCollection(node.right);
+        }
+
+        public BSTIterator() {
+            this.collection = new ArrayList();
+            createCollection(root);
+            curidx = 0;
+            initSize = size();
+    }
+
         @Override
         public boolean hasNext() {
-            return false;
+            if (size() != initSize){throw new ConcurrentModificationException();}
+            return ( curidx <size() && collection.get(curidx) != null);
         }
 
         @Override
         public Key next() {
-            return null;
+            if (size() != initSize){throw new ConcurrentModificationException();}
+            if (!this.hasNext()){throw new NoSuchElementException();}
+            Key ans = collection.get(curidx);
+            curidx++;
+            return ans;
         }
     }
 
