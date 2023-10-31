@@ -1,5 +1,7 @@
 package searching;
 
+import java.util.ConcurrentModificationException;
+
 /**
  * In this exercise, you'll need to implement a class that convert a 2-3 tree into a red black tree.
  * You'll receive as an input a 2-3 tree and you'll need to return the equivalent red black tree.
@@ -42,7 +44,37 @@ public class RedBlackTreeConverter {
      * @return a RBNode which is the root of the equivalent RedBlackTRee
      */
     public static<Key extends Comparable<Key>> RBNode<Key> convert(TwoThreeNode<Key> twoThreeNode) {
-         return null;
+        if (twoThreeNode == null){
+            return null;
+        }
+
+        else if (twoThreeNode.is2node()){
+            RBNode leftChild = convert(twoThreeNode.leftChild);
+            RBNode rightChild = convert(twoThreeNode.centerChild);
+            int size = sizeEvenIfNull((leftChild)) + sizeEvenIfNull(rightChild) + 1;
+            RBNode<Key> newNode = new RBNode<>(twoThreeNode.leftKey, twoThreeNode.leftValue, Color.Black, size);
+            newNode.leftChild = leftChild; newNode.rightChild = rightChild;
+
+            return newNode;
+        }
+        else{
+            RBNode rightChild = convert(twoThreeNode.rightChild); //Rien de + à faire
+
+            RBNode leftChild = new RBNode(twoThreeNode.leftKey, twoThreeNode.leftValue, Color.Red, 0); //BESOIN DE MAJ LA SIZE
+            RBNode leftLeftChild = convert(twoThreeNode.leftChild);
+            RBNode leftRightChild = convert(twoThreeNode.centerChild);
+            leftChild.size =  sizeEvenIfNull(leftLeftChild) + sizeEvenIfNull(leftRightChild) + 1;
+            leftChild.leftChild = leftLeftChild; leftChild.rightChild = leftRightChild;
+
+
+
+            int size = sizeEvenIfNull(leftChild) + sizeEvenIfNull(rightChild) + 1;
+            RBNode newNode = new RBNode(twoThreeNode.rightKey, twoThreeNode.rightValue, Color.Black, size);
+            newNode.leftChild = leftChild;
+            newNode.rightChild = rightChild;
+            return newNode;
+
+        }
     }
     
     public static enum Color {
@@ -138,5 +170,43 @@ public class RedBlackTreeConverter {
      */
     private static<Key extends Comparable<Key>> int sizeEvenIfNull(RBNode<Key> node) {
         return node == null ? 0 : node.size;
+    }
+
+    public static void main(String[] args) {
+        //Arbre de test
+
+        //Leafs
+        TwoThreeNode one = new TwoThreeNode(1,null,1,null);
+        one.leftChild = null; one.rightChild = null;
+
+        TwoThreeNode five = new TwoThreeNode(5,null,5,null);
+        five.leftChild = null; five.rightChild = null;
+
+        TwoThreeNode eight = new TwoThreeNode(8,null,8,null);
+        eight.leftChild = null; eight.rightChild = null;
+
+        TwoThreeNode eleven = new TwoThreeNode(11,null,11,null);
+        eleven.leftChild = null; eleven.rightChild = null;
+
+        TwoThreeNode thirtheen = new TwoThreeNode(13,null,13,null);
+        thirtheen.leftChild = null; thirtheen.rightChild = null;
+
+        TwoThreeNode seventeen = new TwoThreeNode(17,null,17,null);
+        seventeen.leftChild = null; seventeen.rightChild = null;
+
+        //3Nodes
+        TwoThreeNode threeSeven = new TwoThreeNode(3,7,3,7);
+        threeSeven.leftChild = one; threeSeven.centerChild = five; threeSeven.rightChild = eight;
+
+        TwoThreeNode twelveFifteen = new TwoThreeNode(12,15,12,15);
+        twelveFifteen.leftChild = eleven; twelveFifteen.centerChild = thirtheen; twelveFifteen.rightChild = seventeen;
+
+        //Root
+        TwoThreeNode ten = new TwoThreeNode(10,null,10,null);
+        ten.leftChild = threeSeven; ten.rightChild = twelveFifteen;
+
+        RBNode newRBTree = convert(ten);
+
+        return ;
     }
 }

@@ -54,9 +54,16 @@ public class PreorderToBST {
         root = preorderRead(preOrderInput,0,Integer.MIN_VALUE,Integer.MAX_VALUE);
     }
 
+
     public Node preorderRead(int [] preOrderInput, int i, int min, int max) {
-        // !!!!!!! TODO !!!!!!!!
-         return new Node(null,null,preOrderInput[0]);
+        if (i>= preOrderInput.length)return null;
+        if (preOrderInput[i]>min && preOrderInput[i]<max) {
+            Node left = preorderRead(preOrderInput, i + 1, min, preOrderInput[i]);
+            Node right = preorderRead(preOrderInput, i + size(left) + 1, preOrderInput[i], max);
+            Node newNode = new Node(left,right,preOrderInput[i]);
+            return newNode;
+        }
+        return null;
     }
 
     public int[] preorderWrite() {
