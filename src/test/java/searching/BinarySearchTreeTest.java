@@ -30,7 +30,7 @@ public class BinarySearchTreeTest {
         int [] values = new int []{12, 8, 18, 3, 11, 14, 20, 9, 15};
         int [] inputs = new int []{11, 14, 9, 4, 16, 10, 19, 21, 30, 40};
 
-        BinarySearchTree2.BSTNode<Integer> root = new BinarySearchTree2.BSTNode<>(values[0]);
+        BinarySearchTree3.BSTNode<Integer> root = new BinarySearchTree3.BSTNode<>(values[0]);
         correct.add(values[0]);
         for (int i = 0; i < values.length; i++) {
             root.add(values[i]);
@@ -38,7 +38,7 @@ public class BinarySearchTreeTest {
         }
 
         for (int i: inputs) {
-            assertEquals(correct.ceiling(i), BinarySearchTree2.ceil(root, i));
+            assertEquals(correct.ceiling(i), BinarySearchTree3.ceil(root, i));
         }
     }
     

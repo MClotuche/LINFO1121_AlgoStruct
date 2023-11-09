@@ -56,6 +56,9 @@ public class IncrementalHash {
         //  The RM values computed above might help you as well in the computation.
         //  Hint2: Modulo operator is distributive (A + B) % Q = (A % Q + B % Q) % Q (property exploited by Horners's method)
         //  Hint3: To compute B % Q if you have x = (A + B) % Q, you should do (x + Q - A % Q) % Q
+        //Formule: x_{i+1} = (x_i - t_iR^{M-1})R+t_{i+M}
+        //où ti = txt.charAt(i)
+
          return 0;
     }
 }

@@ -64,10 +64,52 @@ public class ArrayBST<Key extends Comparable<Key>, Value> {
      * @return true if the key was added, false if already present and the value has simply been erased
      */
     public boolean put(Key key, Value val) {
-        if (get(key) != null){
-            //Valeur déjà présente, besoin de maj
+        if (key==null)return false;
+         return putRec(key, val, 0);
+    }
+    private boolean putRec(Key key, Value val, int idx) {
+
+        //1. Le BST est vide
+        if (keys.size() == 0){
+            keys.add(key);
+            values.add(val);
+            idxLeftNode.add(NONE);
+            idxRightNode.add(NONE);
+            return true;
         }
-         return false;
+        int cmp = key.compareTo(keys.get(idx));
+        if (cmp==0){ //key déjà présente dans l'arbre
+            values.set(idx, val);
+            return false;
+        }
+        if (cmp<0){ //key inférieure au node actuel
+            int leftIdx = idxLeftNode.get(idx);
+            if (leftIdx == NONE){
+                //Maj du parent
+                idxLeftNode.set(idx,keys.size());
+                //Création du Node
+                keys.add(key);
+                values.add(val);
+                idxLeftNode.add(NONE);
+                idxRightNode.add(NONE);
+                return true;
+            }
+            else return putRec(key,val,leftIdx);
+        }
+        else{ //key supérieure au node actuel
+            int rightIdx = idxRightNode.get(idx);
+            if (rightIdx == NONE){
+                //Maj du parent
+                idxRightNode.set(idx,keys.size());
+                //Création du Node
+                keys.add(key);
+                values.add(val);
+                idxLeftNode.add(NONE);
+                idxRightNode.add(NONE);
+                return true;
+            }
+            else return putRec(key,val,rightIdx);
+        }
     }
 
     /**
@@ -77,7 +119,15 @@ public class ArrayBST<Key extends Comparable<Key>, Value> {
      * @return the value attached to this key, null if the key is not present
      */
     public Value get(Key key) {
-
+        if (key==null)return null;
+        return getRec(key,0);
+    }
+    private Value getRec(Key key, int idx){
+        if (idx>=keys.size() || idx==NONE)return null;
+        int cmp = key.compareTo(keys.get(idx));
+        if (cmp<0)return getRec(key,idxLeftNode.get(idx));
+        if (cmp>0)return getRec(key, idxRightNode.get(idx));
+        return values.get(idx);
     }
 
 

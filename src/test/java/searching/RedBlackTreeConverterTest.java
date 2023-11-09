@@ -11,8 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import searching.RedBlackTreeConverter.RBNode;
-import searching.RedBlackTreeConverter.TwoThreeNode;
+import searching.RedBlackTreeConverter2.RBNode;
+import searching.RedBlackTreeConverter2.TwoThreeNode;
 
 @Grade(noRestrictedImport = true)
 public class RedBlackTreeConverterTest {
@@ -39,7 +39,7 @@ public class RedBlackTreeConverterTest {
         for (String key : keys) {
             root = insert(root, key, key.length());
         }
-        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter.convert(root), root);
+        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter2.convert(root), root);
         assertTrue(checker.checkKeys(keys));
     }
 
@@ -52,7 +52,7 @@ public class RedBlackTreeConverterTest {
         for (String key : keys) {
             root = insert(root, key, key.length());
         }
-        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter.convert(root), root);
+        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter2.convert(root), root);
         assertTrue(checker.isBST());
     }
 
@@ -65,7 +65,7 @@ public class RedBlackTreeConverterTest {
         for (String key : keys) {
             root = insert(root, key, key.length());
         }
-        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter.convert(root), root);
+        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter2.convert(root), root);
         assertTrue(checker.isSizeConsistent());
     }
 
@@ -78,7 +78,7 @@ public class RedBlackTreeConverterTest {
         for (String key : keys) {
             root = insert(root, key, key.length());
         }
-        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter.convert(root), root);
+        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter2.convert(root), root);
         assertTrue(checker.is23());
     }
 
@@ -91,7 +91,7 @@ public class RedBlackTreeConverterTest {
         for (String key : keys) {
             root = insert(root, key, key.length());
         }
-        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter.convert(root), root);
+        RBTChecker<String> checker = new RBTChecker<>(RedBlackTreeConverter2.convert(root), root);
         assertTrue(checker.isBalanced());
     }
 

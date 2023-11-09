@@ -25,7 +25,7 @@ public class BinarySearchTreeHigherTest {
     @Grade(value=5)
     @Order(1)
     public void testExample() {
-        BinarySearchTreeHigher<Integer, Integer> bst = new BinarySearchTreeHigher<Integer, Integer>();
+        BinarySearchTreeHigher2<Integer, Integer> bst = new BinarySearchTreeHigher2<Integer, Integer>();
 
         bst.put(12,12);
         bst.put(8,8);

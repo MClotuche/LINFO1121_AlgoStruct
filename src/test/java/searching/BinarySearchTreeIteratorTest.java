@@ -27,7 +27,7 @@ public class BinarySearchTreeIteratorTest {
     @Grade(value = 1, cpuTimeout = 1000)
     @GradeFeedback(message = "Sorry, something is wrong with your algorithm. Debug first on this small example")
     public void testExample() {
-        BinarySearchTreeIterator<Integer> tree = new BinarySearchTreeIterator<>();
+        BinarySearchTreeIterator2<Integer> tree = new BinarySearchTreeIterator2<>();
         int[] values = new int[]{12, 8, 18, 3, 11, 14, 20, 9, 15};
         for (int v : values) {
             tree.put(v);

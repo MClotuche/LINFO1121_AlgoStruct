@@ -24,9 +24,9 @@ public class PreorderToBSTTest {
     @Order(1)
     public void testSimple() {
         int[] preOrderInput = {10,5,7,14,12};
-        PreorderToBST student = new PreorderToBST(preOrderInput);
-        PreorderToBST teacher = new PreorderToBST();
-        teacher.root = new PreorderToBST.Node(new PreorderToBST.Node(null, new PreorderToBST.Node(null, null, 7), 5), new PreorderToBST.Node(new PreorderToBST.Node(null, null, 12), null, 14), 10);
+        PreorderToBST2 student = new PreorderToBST2(preOrderInput);
+        PreorderToBST2 teacher = new PreorderToBST2();
+        teacher.root = new PreorderToBST2.Node(new PreorderToBST2.Node(null, new PreorderToBST2.Node(null, null, 7), 5), new PreorderToBST2.Node(new PreorderToBST2.Node(null, null, 12), null, 14), 10);
         assertEquals(teacher, student);
 
     }
